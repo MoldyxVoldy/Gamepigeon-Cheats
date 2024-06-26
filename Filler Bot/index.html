@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filler Bot: Gamepigeon Automations</title>
+
+    <style>
+        * {
+            transition: all 1s;
+        }
+
+        div.grid {
+            display: grid;
+            grid-template-columns: repeat(8, 50px);
+            grid-template-rows: repeat(7, 50px);
+            grid-column-gap: 0px;
+            grid-row-gap: 0px;
+            margin-left: 50px;
+            position: relative;
+            top: -350px
+        }
+        div.cell {
+            height: 50px;
+            width: 50px;
+            background-color: black;
+        }
+        div.inputs {
+            position: relative;
+            top: -340px;
+        }
+        button {
+            height: 50px;
+            width: 50px;
+            border: none;
+            border-radius: 2px;
+            margin: 2px;
+            padding: 10px;
+        }
+        button.red {
+            background-color: rgb(245,77,102);
+        }
+        button.green {
+            background-color: rgb(172,217,100);
+        }
+        button.yellow {
+            background-color: rgb(252,223,33);
+        }
+        button.blue {
+            background-color: rgb(76,177,245);
+        }
+        button.purple {
+            background-color: rgb(111,81,166);
+        }
+        button.black {
+            background-color: rgb(53,53,53);
+        }
+        /* div.evalbar {
+            height: 350px;
+            width: 20px;
+            border-radius: 5px;
+            box-shadow: 5px 5px 10px black;
+            overflow: hidden;
+            position: relative;
+        }
+        div.evalbar > div.user {
+            background-color: white;
+            text-align: center;
+        }
+        div.evalbar > div.opp {
+            position: absolute;
+            background-color: black;
+            color: white;
+            text-align: center;
+            bottom: 0px;
+            left: 5px;
+        } */
+        div.eval {
+            height: 355px;
+            width: 20px;
+            /* position: absolute; */
+            position: relative;
+            /* bottom: 10px; */
+            /* left: 5px; */
+            background-color: wheat;
+            border-radius: 3px;
+            overflow: hidden;
+            transition: all 0.5s ease;
+            box-shadow: 5px 5px 10px black;
+        }
+
+        div.eval > div.opponentBar {
+            position: absolute;
+            background-color: black;
+            height: 50%;
+            width: 20px;
+            top: 0px;
+            transition: all 0.5s ease;
+        }
+
+        div.eval > div.opponentBar > p.opponentScore {
+            position: absolute;
+            color: white;
+            top: 5px;
+            font-size: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+
+        div.eval > div.myBar {
+            position: absolute;
+            background-color: white;
+            height: 50%;
+            width: 20px;
+            bottom: 0px;
+            transition: all 0.5s ease;
+        }
+
+        div.eval > div.myBar > p.myScore {
+            position: absolute;
+            color: black;
+            bottom: 5px;
+            font-size: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        input#parser {
+            position: relative;
+            top: -340px;
+        }
+    </style>
+
+</head>
+<body>
+    <!-- <div class="evalbar">
+        <div class="user">0</div>
+        <div class="opp">0</div>
+    </div> -->
+    <div class="eval">
+        <div class="opponentBar">
+            <p class="opponentScore">0</p>
+        </div>
+        <div class="myBar">
+            <p class="myScore">0</p>
+        </div>
+    </div>
+    <div class="grid">
+        <div class="cell" id="06"></div>
+        <div class="cell" id="16"></div>
+        <div class="cell" id="26"></div>
+        <div class="cell" id="36"></div>
+        <div class="cell" id="46"></div>
+        <div class="cell" id="56"></div>
+        <div class="cell" id="66"></div>
+        <div class="cell" id="76"></div>
+        <div class="cell" id="05"></div>
+        <div class="cell" id="15"></div>
+        <div class="cell" id="25"></div>
+        <div class="cell" id="35"></div>
+        <div class="cell" id="45"></div>
+        <div class="cell" id="55"></div>
+        <div class="cell" id="65"></div>
+        <div class="cell" id="75"></div>
+        <div class="cell" id="04"></div>
+        <div class="cell" id="14"></div>
+        <div class="cell" id="24"></div>
+        <div class="cell" id="34"></div>
+        <div class="cell" id="44"></div>
+        <div class="cell" id="54"></div>
+        <div class="cell" id="64"></div>
+        <div class="cell" id="74"></div>
+        <div class="cell" id="03"></div>
+        <div class="cell" id="13"></div>
+        <div class="cell" id="23"></div>
+        <div class="cell" id="33"></div>
+        <div class="cell" id="43"></div>
+        <div class="cell" id="53"></div>
+        <div class="cell" id="63"></div>
+        <div class="cell" id="73"></div>
+        <div class="cell" id="02"></div>
+        <div class="cell" id="12"></div>
+        <div class="cell" id="22"></div>
+        <div class="cell" id="32"></div>
+        <div class="cell" id="42"></div>
+        <div class="cell" id="52"></div>
+        <div class="cell" id="62"></div>
+        <div class="cell" id="72"></div>
+        <div class="cell" id="01"></div>
+        <div class="cell" id="11"></div>
+        <div class="cell" id="21"></div>
+        <div class="cell" id="31"></div>
+        <div class="cell" id="41"></div>
+        <div class="cell" id="51"></div>
+        <div class="cell" id="61"></div>
+        <div class="cell" id="71"></div>
+        <div class="cell" id="00"></div>
+        <div class="cell" id="10"></div>
+        <div class="cell" id="20"></div>
+        <div class="cell" id="30"></div>
+        <div class="cell" id="40"></div>
+        <div class="cell" id="50"></div>
+        <div class="cell" id="60"></div>
+        <div class="cell" id="70"></div>
+        
+    </div>
+    <canvas class="parser" hidden></canvas>
+    <input type="file" name="parser" id="parser">
+    <div class="inputs">
+        <h1>Opponents Move</h1>
+        <div class="oppInput">
+            <button class="red"></button>
+            <button class="green"></button>
+            <button class="yellow"></button>
+            <button class="blue"></button>
+            <button class="purple"></button>
+            <button class="black"></button>
+        </div>
+        <br>
+        <br>
+        <h1>Your Move</h1>
+        <div class="userInput">
+            <button class="red"></button>
+            <button class="green"></button>
+            <button class="yellow"></button>
+            <button class="blue"></button>
+            <button class="purple"></button>
+            <button class="black"></button>
+        </div>
+    </div>
+    <script src="main.js"></script>
+    <script src="parser.js"></script>
+</body>
+</html>
