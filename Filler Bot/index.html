@@ -4,10 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Filler Bot: Gamepigeon Automations</title>
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="favicon.ico">
     <style>
+        /* // <uniquifier>: Use a unique and descriptive class name
+// <weight>: Use a value from 100 to 900
+
+.public-sans-<uniquifier> {
+
+} */
         * {
             transition: all 1s;
+            font-family: "Public Sans", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 200;
+            font-style: normal;
         }
 
         div.grid {
@@ -86,7 +99,7 @@
             border-radius: 3px;
             overflow: hidden;
             transition: all 0.5s ease;
-            box-shadow: 5px 5px 10px black;
+            box-shadow: 2px 1px 10px black;
         }
 
         div.eval > div.opponentBar {
@@ -206,8 +219,9 @@
     </div>
     <canvas class="parser" hidden></canvas>
     <input type="file" name="parser" id="parser">
+    <div class="depth">Depth: 0</div>
     <div class="inputs">
-        <h1>Opponents Move</h1>
+        <h1>Opponent's Move</h1>
         <div class="oppInput">
             <button class="red"></button>
             <button class="green"></button>

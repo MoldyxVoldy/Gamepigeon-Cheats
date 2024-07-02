@@ -54,19 +54,26 @@ document.querySelector('input#parser').addEventListener('change' , () => {
                     if((r+5 >= g && g >= b-5) && (b+5 >= g && g >= r-5)) coords[JSON.stringify([xi,yi])] = 5
                 }
             }
+            window.total = 0
             // console.log(coords['[0,0]'])
-            const userclaimed = {'[0,0]': coords['[0,0]']}
+            const userclaimed = ['[0,0]']
+            const useredge = {'[0,1]': coords['[0,1]'], '[1,0]': coords['[1,0]']}
+            const usercolor = coords['[0,0]']
             delete coords['[0,0]']
-            const oppclaimed = {'[7,6]': coords['[7,6]']}
+            const oppclaimed = ['[7,6]']
+            const oppedge = {'[7,5]': coords['[7,5]'], '[6,6]': coords['[6,6]']}
+            const oppcolor = coords['[7,6]']
             delete coords['[7,6]']
-            let board = new BoardInit(coords, userclaimed, 1, oppclaimed, 1, 1, [], 0)
-            board.update()
+            // (unclaimed, userclaimed, userscore, usercolor, useredge, oppclaimed, oppscore, oppcolor, oppedge, turn, bestMove)
+            let board = new BoardInit(coords, userclaimed, 1, usercolor, useredge, oppclaimed, 1, oppcolor, oppedge, 1)
+            // board.update()
+            for(let i = 0; i < 10; i++) board.update()
             board.show()
             
             console.log(board)
             // console.log(possibleMoves)
             window.board = board
-            const startDepth = 6
+            window.depth = 10
             // const eval = board => {
             //     // let possibleMoves = [0,1,2,3,4,5].filter(num => (num!=Object.entries(board.userclaimed)[0][1] && num!=Object.entries(board.oppclaimed)[0][1]))
             //     let possibleMoves = [0,1,2,3,4,5].filter(num => (num!=Object.values(board.userclaimed)[0] && num!=Object.values(board.oppclaimed)[0]))
@@ -121,7 +128,8 @@ document.querySelector('input#parser').addEventListener('change' , () => {
             // console.log(moves.sort((a,b) => b[1]-a[1])[0])
             // console.log(`Your Best Move is ${colormap[moves.sort((a,b) => b[1]-a[1])[0][0]]} with an expected evaluation of ${moves.sort((a,b) => b[1]-a[1])[0][1]}`)
             //console.log(`Your Best Move is ${colormap[bestMove[0]]} with an expected evaluation of ${bestMove[1]}`)
-            board.runCycle(startDepth)
+            // board.runCycle(window.depth)
+            board.goUntil()
             
             // console.log(BoardInit)
         }
